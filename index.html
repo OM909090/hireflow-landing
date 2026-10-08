@@ -57,10 +57,10 @@
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="#how">How it works</a>
+        <a href="#claude">Claude</a>
         <a href="#evidence">Evidence</a>
-        <a href="#product">Product</a>
+        <a href="#product">Live app</a>
         <a href="#run">The run</a>
-        <a href="#stack">Stack</a>
       </nav>
     </header>
 
@@ -81,8 +81,8 @@
         </p>
 
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#evidence">See real findings</a>
-          <a class="btn btn-ghost" href="#product">Tour the product</a>
+          <a class="btn btn-primary" href="https://app.hire-flow.dev">Open the live app</a>
+          <a class="btn btn-ghost" href="#evidence">See real findings</a>
         </div>
 
         <div class="hero-stats">
@@ -181,6 +181,58 @@
             <em>"containerised microservices with Docker"</em> against a requirement of
             <em>"Kubernetes in production"</em> is <strong>not</strong> a match — it's a question to ask.
           </p>
+        </div>
+      </section>
+
+      <!-- ───────────────────────── claude ───────────────────────── -->
+      <section class="section" id="claude">
+        <div class="section-inner">
+          <p class="eyebrow">Model integration</p>
+          <h2 class="section-title">Claude does the reading. Python decides what's true.</h2>
+          <p class="band-lede">
+            The LLM is used for exactly one job: reading a resume and a job description, then
+            proposing candidate claims with the quotes that support them. Every one of those proposals
+            is handed to a verifier written in plain Python, with no model call anywhere inside it,
+            which goes and locates the quote in the source document. A claim the verifier cannot ground
+            is not downgraded or hedged — it is refused, and the requirement stays open for a human.
+          </p>
+          <p class="band-lede">
+            Because the trust boundary sits in code rather than in the model, the agent stays useful
+            on a weaker model. Swapping the model never changes what HireFlow is willing to assert,
+            which is the property we actually care about.
+          </p>
+
+          <div class="cards">
+            <article class="card">
+              <h4>Model-agnostic by design</h4>
+              <p>
+                The pipeline talks to any OpenAI-compatible <code>/chat/completions</code> endpoint
+                through <code>HIREFLOW_BASE_URL</code> and <code>HIREFLOW_MODEL</code>. Moving to a
+                different provider is a configuration change, never a rewrite.
+              </p>
+            </article>
+            <article class="card">
+              <h4>Batched for throughput</h4>
+              <p>
+                One call per candidate, run concurrently, instead of one per requirement. That is the
+                difference between roughly 19 minutes and about 91 seconds for a five-candidate pool.
+              </p>
+            </article>
+            <article class="card">
+              <h4>Structured output, handled</h4>
+              <p>
+                JSON is enforced by system prompt, tolerant parsing and a single repair retry rather
+                than a vendor flag — so the client does not depend on a provider-specific guarantee.
+              </p>
+            </article>
+            <article class="card">
+              <h4>Nothing trusted from the browser</h4>
+              <p>
+                API routes hold the prompts and the model key server-side. The browser never receives
+                credentials, and the recorded run renders with no model access at all.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
